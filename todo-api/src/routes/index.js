@@ -1,11 +1,7 @@
-const express = require('express')
-const router = express.Router()
+const router = require('express').Router()
 
-router.post('/:say', function (req, res) {
-    let say = req.params.say
-    let { first, last } = req.body
-    let message = `${say} ${first} ${last}!`
-    res.json({ message });
-})
+const logRequest = require('./routes')
+router.use(express.json())
+      .use(logRequest)
 
 module.exports = router
