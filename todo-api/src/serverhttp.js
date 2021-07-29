@@ -2,18 +2,17 @@ const url = require('url')
 const http = require(`http`);
 
 
-const string = "Little red fox jumps over logs. Fox is red"
+
 function getWordCounterReduce(testText) {
     let words = testText.toLowerCase().replace(/[.,\s]/g, ' ').split(' ').filter(String);
     console.log(words);
     return words.reduce((prev, next) => {
-        //console.log('before',prev)
         prev[next] = (prev[next] + 1) || 1;
-        //console.log('after',prev)
         return prev;
     }, {});
 }
 
+// console.log(getWordCounterReduce(string))
 
 function Plural(num, nom, gen, plu) {
     if (num % 10 == 0) {
@@ -55,15 +54,16 @@ const server = http.createServer((req, res) => {
         res.end(Plural(`${searchParams.get('number') - 1}`, `${newforms[0]}`, `${newforms[1]}`, `${newforms[2]}`) + '\n');
         // curl 'localhost:3000/plural?number=2&forms=person,people,people'
 
-    } else if (pathname === '/frequensy') {
+    } else if (pathname === '/frequency' && req.method === 'POST') {
         // curl -X POST localhost:5000/frequency --data-raw "Little red fox jumps over logs. Fox is red"
         // добавить в ответ 3 заголовка: Content-Type: application/json; количество уникальных слов; самое частое слово.
         let data = "";
-        req.on("data", chunk => data.push(chunk));
+        req.on("data", chunk => data += chunk
+        )
         req.on("end", () => {
-            let input = getWordCounterReduce(data);
             let greatValue = 0;
-            let keyValue;
+            let keyValue = {};
+            const input = getWordCounterReduce(data);
             for (let key in input) { //let input = {"fox": 2 ,"is": 1, "jumps": 1, "little": 1,  "logs": 1,  "over": 1,   "red": 2 };
                 let next = input[key];
                 if (greatValue < next) {
@@ -71,14 +71,18 @@ const server = http.createServer((req, res) => {
                     keyValue = key; //console.log(keyValue); // "fox"
                 }
             }
-            res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.setHeader('Word count', `${(Object.keys(input).length)}`);
-            res.setHeader('Most popular word', `${keyValue}`);
-            res.end(JSON.stringify)
+
+            let count = Object.keys(input).length;
+            res.writeHead(200, { 'Content-type': 'application/json' });
+            res.setHeader("Word count", `${count}`);
+            res.setHeader("Most popular word", `${keyValue}`);
+            
+            res.end(JSON.stringify(input))
         });
     }
 
     res.writeHead(200, { 404: 'Not found' });
+
     res.end();
 
 })
