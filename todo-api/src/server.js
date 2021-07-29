@@ -9,16 +9,23 @@ function logRequest ({ method, url }, res, next) {
 app.use(express.json())
 app.use(logRequest)
 
-
+const inc = (init = 0) => () => ++init
+const genId = inc()
 const tasks = [
-    { id: 1, name: 'Game tasks' }, 
-    { id: 2, name: 'Create task' }
+    { id: genId(), name: 'Game tasks' }, 
+    { id: genId(), name: 'Create task' }
 ]
-
+const createTask = data => {
+    return {
+        id: genId(),
+        name: data.name,
+        done: false
+    }
+}
 app.get('/tasks', (req, res) => res.json(tasks))
 
 app.post('/tasks', (req, res) => {
-    const task = req.body
+    const task = createTask(req.body)
     tasks.push(task)
     res.json(task)
 })
