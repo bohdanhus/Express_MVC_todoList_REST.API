@@ -22,35 +22,35 @@ const createTask = data => {
     }
 }
 
-const getTask = (id) => {
+const getTask = id => {
     const task = tasks.find(name => name.id === id)
     return task
 }
 
-const addTask = (body) => {
-    const name = createTask(body);
-    tasks.push()
-    return name
-}
-
-const removeTask = (id) => {
-    tasks.findIndex(name => name.id === id)
-    tasks.splice(id - 1, 1)
+const addTask = data => { 
+    const task = createTask(data);
+    tasks.push(task)
     return tasks
 }
 
-const editTask = (id, body) => {
+const removeTask = id => { 
+    tasks.findIndex(name => name.id === id)
+    tasks.splice(id - 1, 1) // filter() != id
+    return tasks
+}
+
+const editTask = (id, data) => {
     let name = tasks.find(name => name.id === id);
-    Object.assign(name, body);
+    Object.assign(name, data);
     return name;
 }
 
-const changeTask = (id, body) => {
+const changeTask = (id, data) => { 
     tasks.find(name => name.id === id)
     return tasks[id - 1] = {
         id: id,
-        name: body.name,
-        done: body.done,
+        name: data.name,
+        done: data.done,
     };
 }
 

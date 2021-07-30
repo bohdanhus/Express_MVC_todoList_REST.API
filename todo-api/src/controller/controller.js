@@ -1,4 +1,4 @@
-const { getAllTasks, getTask, editTask, removeTask, changeTask, addTask } = require('../model')
+const { getAllTasks, getTask, addTask, editTask, removeTask, changeTask } = require('../model')
 
 class todoList {
   getAllTasks() {
@@ -6,7 +6,8 @@ class todoList {
   }
   
   createTask(req) {
-    return addTask(req.body)
+    const data = req.body
+    return addTask(data)
   }
 
   getTask(req) {
@@ -14,21 +15,21 @@ class todoList {
     return getTask(id)
   }
 
-  removeTask(req, res) {
+  removeTask(req) {
     const id = parseInt(req.params.id);
     return removeTask(id)
   }
 
   editTask(req) {
     const id = parseInt(req.params.id)
-    const body = req.body
-    return editTask(id,body)  
+    const data = req.body
+    return editTask(id, data)  
   }
 
-  changeTask(req, res) {
+  changeTask(req) {
     const id = parseInt(req.params.id)
-    const body = req.body
-    return changeTask(id,body)
+    const data = req.body
+    return changeTask(id, data)
   }
 }
 
