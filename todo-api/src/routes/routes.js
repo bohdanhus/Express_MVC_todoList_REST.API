@@ -1,47 +1,56 @@
 const router = require('express').Router()
 const controller = require('../controller/controller.js')
 
-// getAllTasks
 router.get('/', function (req, res) {
     res.json(controller.getAllTasks())
 })
-// curl localhost:3000/tasks
-// http :3000/tasks
+// getAllTasks
+// curl localhost:3000/tasks or http :3000/tasks
 
 
-//createTask
+router.get('/:id', function (req, res) {
+    res.json(controller.getTask(req))
+})
+// getTask
+//curl localhost:3000/tasks/2 or http :3000/tasks/2
+
+
 router.post('/', (req, res) => {
     res.json(controller.createTask(req))
 });
-// curl localhost:3000/tasks -d '{ "task": "New task" }' -H "Content-Type: application/json" 
+//createTask
+// curl localhost:3000/tasks -d '{ "name": "New task" }' -H "Content-Type: application/json" 
 // http POST :3000/tasks task="new task"
 
 
-// editTask
 router.patch('/:id', (req, res) => {
     res.json(controller.editTask(req, res))
 });
-// curl -X PATCH localhost:3000/tasks/1 -d '{"task": "New name"}' -H "Content-Type: application/json"
+// editTask
+// curl -X PATCH localhost:3000/tasks/1 -d '{"name": "New name"}' -H "Content-Type: application/json"
 // http PATCH :3000/tasks/1 done=true
 
 
-// removeTask
 router.delete('/:id', (req, res) => {
-    res.end(controller.removeTask(req, res))
+    controller.removeTask(req, res)
+    res.end()
 })
+// removeTask
 // http DELETE :3000/tasks/1 
 
 
-// changeTask
 router.put('/:id', (req, res) => {
     res.end(controller.changeTask(req, res))
 })
-// http PATCH :3000/tasks/1 task="" done=true
-
-
+// changeTask
+// http PATCH :3000/tasks/1 name="" done=true
 module.exports = router;
 
-
+// const logRequest = (req, next) => {
+//     let {method, url} = req;
+//     console.log(`[${new Date().toISOString()}] ${method} ${url}`);
+//     next();
+// }
 
 
 

@@ -2,8 +2,12 @@ const inc = (init = 0) => () => ++init
 const genId = inc()
 
 const tasks = [
-    { id: genId(), task: 'Show tasks', done: false }, 
-    { id: genId(), task: 'Create task', done: false }
+    { id: genId(), name: 'New task', done: false }, 
+    { id: genId(), name: 'Create server', done: false }, 
+    { id: genId(), name: 'Create game', done: false }, 
+    { id: genId(), name: 'Show task', done: false }, 
+    { id: genId(), name: 'Show server', done: false }, 
+    { id: genId(), name: 'Show game', done: false }
 ]
 
 const getAllTasks = () => {
@@ -13,36 +17,44 @@ const getAllTasks = () => {
 const createTask = data => {
     return {
         id: genId(),
-        task: data.task,
+        name: data.name,
         done: false
     }
 }
 
-const editTask = (req, res) => {
-    let task = tasks.find(name => name.id === parseInt(req.params.id));
-    Object.assign(task, res.body);
-    return task;
-}
-
-const addTask = (body) => {
-    const task = createTask(body);
-    tasks.push(task)
+const getTask = (id) => {
+    const task = tasks.find(name => name.id === id)
     return task
 }
 
-const removeTask = (req, res) => {
- 
-}
-const changeTask = (req, res) => {
-
-}
-const logRequest = (req, next) => {
-    let {method, url} = req;
-    console.log(`[${new Date().toISOString()}] ${method} ${url}`);
-    next();
+const addTask = (body) => {
+    const createdTask = createTask(body);
+    tasks.push()
+    return createdTask
 }
 
-module.exports = {getAllTasks, createTask, addTask, editTask, removeTask, changeTask, logRequest}
+const removeTask = (id) => {
+    tasks.findIndex(name => name.id === id)
+    tasks.splice(id - 1, 1)
+    return tasks
+}
+
+const editTask = (id, body) => {
+    let name = tasks.find(name => name.id === id);
+    Object.assign(name, body);
+    return name;
+}
+
+const changeTask = (id, body) => {
+    tasks.find(name => name.id === id)
+    return tasks[id - 1] = {
+        id: id,
+        name: body.name,
+        done: body.done,
+    };
+}
+
+module.exports = {getAllTasks, createTask, addTask, getTask, editTask, removeTask, changeTask}
 
 
 
