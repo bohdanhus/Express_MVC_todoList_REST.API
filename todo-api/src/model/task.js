@@ -28,9 +28,9 @@ const getTask = (id) => {
 }
 
 const addTask = (body) => {
-    const createdTask = createTask(body);
+    const name = createTask(body);
     tasks.push()
-    return createdTask
+    return name
 }
 
 const removeTask = (id) => {

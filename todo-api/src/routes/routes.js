@@ -27,7 +27,7 @@ router.patch('/:id', (req, res) => {
     res.json(controller.editTask(req, res))
 });
 // editTask
-// curl -X PATCH localhost:3000/tasks/1 -d '{"name": "New name"}' -H "Content-Type: application/json"
+// curl -X PATCH localhost:3000/tasks/1 -d '{"name": "Novoe nazvanie"}' -H "Content-Type: application/json"
 // http PATCH :3000/tasks/1 done=true
 
 
@@ -41,6 +41,7 @@ router.delete('/:id', (req, res) => {
 
 router.put('/:id', (req, res) => {
     res.end(controller.changeTask(req, res))
+
 })
 // changeTask
 // http PATCH :3000/tasks/1 name="" done=true
