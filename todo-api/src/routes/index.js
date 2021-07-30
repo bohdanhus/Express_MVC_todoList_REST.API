@@ -1,7 +1,7 @@
 const router = require('express').Router()
+const routes = require('./routes')
 
-const logRequest = require('./routes')
-router.use(express.json())
-      .use(logRequest)
+
+router.use("/tasks", routes)
 
 module.exports = router
