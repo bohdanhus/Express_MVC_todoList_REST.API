@@ -4,8 +4,8 @@ const incTask = (init = 0) => () => ++init
 const genIdTask = incTask()
 
 const lists = [
-    { id: genIdList(), tasks: [{ id: 1, name: 'New list 1' }], title: 'First list' },
-    { id: genIdList(), tasks: [{ id: 1, name: 'New list 2' }], title: 'Second list' },
+    { id: genIdList(), tasks: [{ id: genIdTask(), name: 'List 1' }], title: 'First list' },
+    { id: genIdList(), tasks: [{ id: genIdTask(), name: 'New list 2' }], title: 'Second list' },
 ]
 
 const getAllLists = () => {
@@ -20,7 +20,7 @@ const createList = data => {
     }
 }
 
-const getList = id => {
+const getList = (id) => {
     const list = lists.find(list => list.id === id)
     return list === undefined ? false : list
 }
@@ -55,4 +55,4 @@ const editList = (id, data) => {
 //     };
 // }
 
-module.exports = { genIdTask, lists, getAllLists, createList, editList, removeList, addList }
+module.exports = { genIdTask, getList, getAllLists, createList, editList, removeList, addList, lists }
