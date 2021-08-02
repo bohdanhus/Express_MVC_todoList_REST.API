@@ -6,11 +6,14 @@ const genIdTask = incTask()
 const lists = [
     { id: genIdList(), tasks: [{ id: genIdTask(), name: 'List 1' }], title: 'First list' },
     { id: genIdList(), tasks: [{ id: genIdTask(), name: 'New list 2' }], title: 'Second list' },
+    { id: genIdList(), tasks: [{ id: genIdTask(), name: 'NW 3' }], title: 'Second list' },
+    { id: genIdList(), tasks: [{ id: genIdTask(), name: 'New list 2' }], title: 'Second list' },
+    { id: genIdList(), tasks: [{ id: genIdTask(), name: 'New list 2' }], title: 'Second list' },
 ]
 
 const getAllLists = () => {
     return lists;
-}
+}//
 
 const createList = data => {
     return {
@@ -18,18 +21,18 @@ const createList = data => {
         name: data.name,
         done: false
     }
-}
+}//
 
 const getList = (id) => {
     const list = lists.find(list => list.id === id)
     return list === undefined ? false : list
-}
+}//
 
 const addList = data => { 
     const list = createList(data);
     lists.push(list)
     return lists
-}
+}//
 
 const removeList = id => { 
     const deliver = lists.findIndex(name => name.id === id)
@@ -39,20 +42,12 @@ const removeList = id => {
     } else {
         return false;
     }
-}
+}//
 
 const editList = (id, data) => {
-    let list = lists.find(list => list.id === id);
-    return list === undefined ? Object.assign(list, data) : false 
+    let list = lists.find((list) => list.id === id);
+    list !== undefined ? false : return Object.assign(list, data).list // obj.ass(l,d) \n return list
 }
 
-// const changeList = (id, data) => { 
-//     lists.find(name => name.id === id)
-//     return lists[id - 1] = {
-//         id: id,
-//         name: data.name,
-//         done: data.done,
-//     };
-// }
 
 module.exports = { genIdTask, getList, getAllLists, createList, editList, removeList, addList, lists }
