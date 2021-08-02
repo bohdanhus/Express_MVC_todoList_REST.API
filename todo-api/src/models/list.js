@@ -2,12 +2,8 @@ const inc = (init = 0) => () => ++init
 const genId = inc()
 
 const tasks = [
-    { id: genId(), name: 'New task', done: false }, 
+    { id: genId(), name: 'New task in list 2', done: false }, 
     { id: genId(), name: 'Create server', done: false }, 
-    { id: genId(), name: 'Create game', done: false }, 
-    { id: genId(), name: 'Show task', done: false }, 
-    { id: genId(), name: 'Show server', done: false }, 
-    { id: genId(), name: 'Show game', done: false }
 ]
 
 const getAllTasks = () => {
@@ -34,9 +30,13 @@ const addTask = data => {
 }
 
 const removeTask = id => { 
-    tasks.findIndex(name => name.id === id)
-    tasks.splice(id - 1, 1) // filter() != id
-    return tasks
+    const deliver = tasks.findIndex(name => name.id === id)
+    if (deliver !== -1){ // если элемент удовлетворяет условию проверяющей функции. В противном случае возвращается -1.
+        tasks.splice(id - 1, 1) // filter() != id
+        return true
+    } else {
+        return false;
+    }
 }
 
 const editTask = (id, data) => {
@@ -55,9 +55,3 @@ const changeTask = (id, data) => {
 }
 
 module.exports = {getAllTasks, createTask, addTask, getTask, editTask, removeTask, changeTask}
-
-
-
-
-
-

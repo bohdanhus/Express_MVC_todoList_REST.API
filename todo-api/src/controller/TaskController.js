@@ -1,6 +1,7 @@
-const { getAllTasks, getTask, addTask, editTask, removeTask, changeTask } = require('../model')
+const task = require('../models');
+const list = require('../models')
 
-class todoList {
+class TaskController {
   getAllTasks() {
     return getAllTasks();
   }
@@ -35,4 +36,4 @@ class todoList {
 
 
 
-module.exports = new todoList();
+module.exports = new TaskController();
