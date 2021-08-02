@@ -21,44 +21,85 @@ const createTask = data => {
     }
 }
 
-const getTask = id => {
-    let task = tasks.find(task => task.id === id);
-    return task
-}
-
-
-const addTask = data => { 
-    const task = createTask(data);
-    tasks.push(task)
-    return tasks
-}
-
-const removeTask = id => { 
-    const deliver = tasks.findIndex(name => name.id === id)
-    if (deliver !== -1){ // если элемент удовлетворяет условию проверяющей функции. В противном случае возвращается -1.
-        tasks.splice(id - 1, 1) // filter() != id
-        return true
+const getTask = (listid, taskid) => {
+const list = lists.find((list) => list.id === listid)
+  if (list !== undefined) {
+    const task = list.tasks.find((task) => task.id === taskid)
+    if (task !== undefined) {
+      return task
     } else {
-        return false;
+      return 'TASK NOT FOUND'
     }
+  } else {
+    return 'LIST NOT FOUND'
+  }
+}//
+
+
+const addTask = (id, options) => { 
+    const task = createTask(data);
+    const list = lists.find(list => list.id === id)
+    if (list !== undefined) {
+        list.task.push(task)
+        return list
+    } else {
+      return "list not found"
+    }
+}//
+
+const removeTask = id => { //
+    const list = lists.find(list => list.id === id)
+    if (list !== undefined){
+    const deliver = list.tasks.findIndex(name => name.id === id)
+    if (deliver !== -1){ // если элемент удовлетворяет условию проверяющей функции. В противном случае возвращается -1.
+        const deleted = tasks.splice(id - 1, 1) // filter() != id
+        return deleted
+    } else {
+        return 'TAST NOT FOUND'
+    }
+}else {
+    return 'LIST NOT FOUND'
+}
 }
 
-const editTask = (id, data) => {
-    let name = tasks.find(name => name.id === id);
-    Object.assign(name, data);
-    return name;
+const editTask = (listid, taskid, data) => {
+const list = lists.find((list) => list.id === listid)
+  if (list !== undefined) {
+    const task = list.tasks.find(task => task.id === taskid)
+    if (task !== undefined) {
+      Object.assign(task, options)
+      return task
+    } else {
+      return 'task not found'
+    }
+  } else {
+    return 'list not found'
+  }
 }
 
-const changeTask = (id, data) => { 
-    tasks.find(name => name.id === id)
-    return tasks[id - 1] = {
+const changeTask = (listid, taskid, data) => { 
+    const list = lists.find((list) => list.id === taskid)
+  if (list !== undefined){
+    const newTask = {
         id: id,
         name: data.name,
-        done: data.done,
-    };
+        done: data.done ?? false
+    }
+    const tasks = list.tasks
+    const index = tasks.findIndex((task) => task.id === taskid)
+    if (index !== -1) {
+      tasks.splice(index, 1, newTask)
+      return newTask
+    } else {
+      return 'Task not found'
+    }
+  } else {
+    return 'list not found'
+  }
 }
 
 module.exports = {getAllTasks, createTask, addTask, getTask, editTask, removeTask, changeTask}
+
 
 
 
