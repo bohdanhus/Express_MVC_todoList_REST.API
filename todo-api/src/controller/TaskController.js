@@ -1,6 +1,6 @@
 const { taskModel } = require('../models/index.js');
 
-class TaskController {
+class taskController {
   getAllTasks(listId) {
     return taskModel.getAllTasks(listId)
   }
@@ -35,4 +35,4 @@ class TaskController {
 
 
 
-module.exports = new TaskController();
+module.exports = new taskController();
