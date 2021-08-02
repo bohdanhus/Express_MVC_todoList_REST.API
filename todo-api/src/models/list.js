@@ -1,57 +1,58 @@
-const inc = (init = 0) => () => ++init
-const genId = inc()
+const incList = (init = 0) => () => ++init
+const genIdList = incList()
+const incTask = (init = 0) => () => ++init
+const genIdTask = incTask()
 
-const tasks = [
-    { id: genId(), name: 'New task in list 2', done: false }, 
-    { id: genId(), name: 'Create server', done: false }, 
+const lists = [
+    { id: genIdList(), tasks: [{ id: 1, name: 'New list 1' }], title: 'First list' },
+    { id: genIdList(), tasks: [{ id: 1, name: 'New list 2' }], title: 'Second list' },
 ]
 
-const getAllTasks = () => {
-    return tasks;
+const getAllLists = () => {
+    return lists;
 }
 
-const createTask = data => {
+const createList = data => {
     return {
-        id: genId(),
+        id: genIdTask(),
         name: data.name,
         done: false
     }
 }
 
-const getTask = id => {
-    const task = tasks.find(name => name.id === id)
-    return task
+const getList = id => {
+    const list = lists.find(list => list.id === id)
+    return list === undefined ? false : list
 }
 
-const addTask = data => { 
-    const task = createTask(data);
-    tasks.push(task)
-    return tasks
+const addList = data => { 
+    const list = createList(data);
+    lists.push(list)
+    return lists
 }
 
-const removeTask = id => { 
-    const deliver = tasks.findIndex(name => name.id === id)
+const removeList = id => { 
+    const deliver = lists.findIndex(name => name.id === id)
     if (deliver !== -1){ // если элемент удовлетворяет условию проверяющей функции. В противном случае возвращается -1.
-        tasks.splice(id - 1, 1) // filter() != id
+        lists.splice(id - 1, 1) // filter() != id
         return true
     } else {
         return false;
     }
 }
 
-const editTask = (id, data) => {
-    let name = tasks.find(name => name.id === id);
-    Object.assign(name, data);
-    return name;
+const editList = (id, data) => {
+    let list = lists.find(list => list.id === id);
+    return list === undefined ? Object.assign(list, data) : false 
 }
 
-const changeTask = (id, data) => { 
-    tasks.find(name => name.id === id)
-    return tasks[id - 1] = {
-        id: id,
-        name: data.name,
-        done: data.done,
-    };
-}
+// const changeList = (id, data) => { 
+//     lists.find(name => name.id === id)
+//     return lists[id - 1] = {
+//         id: id,
+//         name: data.name,
+//         done: data.done,
+//     };
+// }
 
-module.exports = {getAllTasks, createTask, addTask, getTask, editTask, removeTask, changeTask}
+module.exports = { genIdTask, lists, getAllLists, createList, editList, removeList, addList }

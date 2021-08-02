@@ -1,31 +1,31 @@
-const inc = (init = 0) => () => ++init
-const genId = inc()
-
+const { genIdTask, lists } = require('./list')
 const tasks = [
-    { id: genId(), name: 'New task', done: false }, 
-    { id: genId(), name: 'Create server', done: false }, 
-    { id: genId(), name: 'Create game', done: false }, 
-    { id: genId(), name: 'Show task', done: false }, 
-    { id: genId(), name: 'Show server', done: false }, 
-    { id: genId(), name: 'Show game', done: false }
+    { id: genIdTask(), name: 'New task', done: false }, 
+    { id: genIdTask(), name: 'Create server', done: false }, 
+    { id: genIdTask(), name: 'Create game', done: false }, 
+    { id: genIdTask(), name: 'Show task', done: false }, 
+    { id: genIdTask(), name: 'Show server', done: false }, 
+    { id: genIdTask(), name: 'Show game', done: false }
 ]
 
 const getAllTasks = () => {
-    return tasks;
+    return tasks
 }
+
 
 const createTask = data => {
     return {
-        id: genId(),
+        id: genIdTask(),
         name: data.name,
         done: false
     }
 }
 
 const getTask = id => {
-    const task = tasks.find(name => name.id === id)
+    let task = tasks.find(task => task.id === id);
     return task
 }
+
 
 const addTask = data => { 
     const task = createTask(data);

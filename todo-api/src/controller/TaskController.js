@@ -1,36 +1,35 @@
-const task = require('../models');
-const list = require('../models')
+const { taskModel } = require('../models/index.js');
 
 class TaskController {
-  getAllTasks() {
-    return getAllTasks();
+  getAllTasks(listId) {
+    return taskModel.getAllTasks(listId)
   }
   
   createTask(req) {
     const data = req.body
-    return addTask(data)
+    return taskModel.addTask(data)
   }
 
   getTask(req) {
     const id = parseInt(req.params.id)
-    return getTask(id)
+    return taskModel.getTask(id)
   }
 
   removeTask(req) {
     const id = parseInt(req.params.id);
-    return removeTask(id)
+    return taskModel.removeTask(id)
   }
 
   editTask(req) {
     const id = parseInt(req.params.id)
     const data = req.body
-    return editTask(id, data)  
+    return taskModel.editTask(id, data)  
   }
 
   changeTask(req) {
     const id = parseInt(req.params.id)
     const data = req.body
-    return changeTask(id, data)
+    return taskModel.changeTask(id, data)
   }
 }
 
