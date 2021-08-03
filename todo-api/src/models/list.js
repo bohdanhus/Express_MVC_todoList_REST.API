@@ -4,11 +4,11 @@ const incTask = (init = 0) => () => ++init
 const genIdTask = incTask()
 
 const lists = [
-    { id: genIdList(), tasks: [{ id: genIdTask(), name: 'List 1' }], title: 'First list' },
-    { id: genIdList(), tasks: [{ id: genIdTask(), name: 'New list 2' }], title: 'Second list' },
-    { id: genIdList(), tasks: [{ id: genIdTask(), name: 'NW 3' }], title: 'Second list' },
-    { id: genIdList(), tasks: [{ id: genIdTask(), name: 'New list 2' }], title: 'Second list' },
-    { id: genIdList(), tasks: [{ id: genIdTask(), name: 'New list 2' }], title: 'Second list' },
+    { id: genIdList(), tasks: [{ id: 1, name: 'List 1' }], title: 'First list' },
+    { id: genIdList(), tasks: [{ id: 1, name: 'New list 2' }], title: 'Second list' },
+    { id: genIdList(), tasks: [{ id: 1, name: 'NW 3' }], title: 'Second list' },
+    { id: genIdList(), tasks: [{ id: 1, name: 'New list 4' }], title: 'Second list' },
+    { id: genIdList(), tasks: [{ id: 1, name: 'New list 5' }], title: 'Second list' },
 ]
 
 const getAllLists = () => {
@@ -39,14 +39,15 @@ const removeList = id => {
     if (deliver !== -1){ // если элемент удовлетворяет условию проверяющей функции. В противном случае возвращается -1.
         lists.splice(id - 1, 1) // filter() != id
         return true
-    } else {
-        return false;
-    }
-}//
+    } 
+}
 
 const editList = (id, data) => {
     let list = lists.find((list) => list.id === id);
-    list !== undefined ? false : return Object.assign(list, data).list // obj.ass(l,d) \n return list
+    if (list !== undefined) {
+        Object.assign(list, data)
+        return list
+    } // obj.ass(l,d) \n return list
 }
 
 

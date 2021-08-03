@@ -3,62 +3,79 @@ const taskController = require('../controller/TaskController.js')
 const router = express.Router({
     mergeParams: true
 })
-const checkAnswer = (answer, res) => {
-  if (answer !== false) {
-    res.json(answer)
+router.get('/', function (req, res) {  // 200 404
+  const tasks = taskController.getAllTasks()
+  if (tasks) {
+    res.status(200)
+    res.json(tasks)
+    res.end()
   } else {
-    res.status(400)
-    res.end('Task not found')
+    res.status(404)
+    res.end()
   }
-}
+})// curl localhost:3000/tasks or http :3000/tasks true
 
-const getListId = (req) => {
-  const listId = req.params.listId !== undefined ? req.params.listId : req.query.listId
-  return parseInt(listId)
-}
+router.get('/:taskId', function (req, res) { // 200 404
+    const task = taskController.getTask(parseInt(req.params.listId), parseInt(req.params.taskId))
+    if (task) {
+      res.status(200)
+      res.json(task)
+      res.end()
+    } else {
+      res.status(404)
+      res.end()
+    }
+})//curl localhost:3000/tasks/2 or http :3000/tasks/2 true
 
-router.get('/', function (req, res) {
-    const listId = getListId(req)
-    res.status(200);
-    res.json(taskController.getAllTasks())
-})
-// curl localhost:3000/tasks or http :3000/tasks true
+router.post('/', (req, res) => { // 201 or 422
+    const posted = (taskController.createTask(parseInt(req.params.listId), req.body))
+    if (posted) {
+      res.status(201)
+      res.json(posted)
+      res.end()
+    } else {
+      res.status(422)
+      res.end()
+    }
+});// curl localhost:3000/tasks -d '{ "name": "New task" }' -H "Content-Type: application/json"  true
+   // http POST :3000/tasks task="new task"
 
-router.get('/:taskId', function (req, res) {
-    const answer = taskController.getTask(getListId(req), parseInt(req.params.taskId))
-    res.json(taskController.getTask(req))
-    checkAnswer(answer, res)
+router.patch('/:taskId', (req, res) => { // 200 404
+  const edit = taskController.updateTask(parseInt(req.params.listId), parseInt(req.params.taskId), req.body)
+  if (edit) {
+    res.status(200)
+    res.json(edit)
     res.end()
-})
-//curl localhost:3000/tasks/2 or http :3000/tasks/2 true
-
-router.post('/', (req, res) => {
-    const answer = (taskController.createTask(getListId(req), req.body))
+  } else {
+    res.status(404)
     res.end()
-});
-// curl localhost:3000/tasks -d '{ "name": "New task" }' -H "Content-Type: application/json"  true
-// http POST :3000/tasks task="new task"
+  }
+});// curl -X PATCH localhost:3000/tasks/1 -d '{"name": "Novoe nazvanie"}' -H "Content-Type: application/json"
+   // http PATCH :3000/tasks/1 done=true true
 
-router.patch('/:taskId', (req, res) => {
-  const answer = taskController.updateTask(getListId(req), parseInt(req.params.taskId), req.body)
-  checkAnswer(answer, res)
-});
-// curl -X PATCH localhost:3000/tasks/1 -d '{"name": "Novoe nazvanie"}' -H "Content-Type: application/json"
-// http PATCH :3000/tasks/1 done=true true
-
-router.delete('/:taskId', (req, res) => {
-  const answer = taskController.removeTask(getListId(req),  parseInt(req.params.taskId))
-  checkAnswer(answer, res)
+router.delete('/:taskId', (req, res) => { // http DELETE :3000/tasks/1 true
+  const remove = taskController.removeTask(parseInt(req.params.listId),  parseInt(req.params.taskId))
+  if (remove) {
+    res.status(202)
+    res.json(remove)
+    res.end()
+  } else {
+    res.status(404)
+    res.end()
+  }
 })
-// http DELETE :3000/tasks/1 true
 
-
-router.put('/:taskId', (req, res) => {
-  const answer = taskController.replaceTask(getListId(req), parseInt(req.params.taskId), req.body)
-  checkAnswer(answer, res)
-
+router.put('/:taskId', (req, res) => { // http PATCH :3000/tasks/1 name="" done=true
+  const patch = taskController.replaceTask(parseInt(req.params.listId), parseInt(req.params.taskId), req.body)
+  if (patch) {
+    res.status(200)
+    res.json(patch)
+    res.end()
+  } else {
+    res.status(404)
+    res.end()
+  }
 })
-// http PATCH :3000/tasks/1 name="" done=true
 
 
 module.exports = router;
