@@ -1,0 +1,23 @@
+{
+  "name": "todo-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {},
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bromanovich99/todoapi-db.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bromanovich99/todoapi-db/issues"
+  },
+  "homepage": "https://github.com/bromanovich99/todoapi-db#readme",
+  "description": ""
+}
