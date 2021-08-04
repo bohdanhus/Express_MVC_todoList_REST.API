@@ -5,7 +5,7 @@ function logRequest ({ method, url }, res, next) {
     console.log(`[${new Date().toISOString()}] ${method} ${url}`)
     next()
 }
-
+ 
 app.use(express.json())
 app.use(logRequest)
 
