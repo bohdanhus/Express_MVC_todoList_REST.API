@@ -1,12 +1,13 @@
-const express = require('express')
-
-const task = require('./task')
-const list = require('./list')
+import express from 'express'
 
 const router = express.Router()
 
-router.use("/tasks", task)
-router.use("/lists", list)
+
+import tasks from './tasks.js'
+import lists from './lists.js'
 
 
-module.exports = router
+router.use("/lists", lists)
+router.use("/tasks", tasks)
+
+export default router

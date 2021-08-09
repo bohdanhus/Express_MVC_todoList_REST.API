@@ -1,86 +1,81 @@
-const { genIdTask, lists } = require('./list')
-const tasks = [
-    { id: genIdTask(), name: 'New task', done: false }, 
-    { id: genIdTask(), name: 'Create server', done: false }, 
-    { id: genIdTask(), name: 'Create game', done: false }, 
-    { id: genIdTask(), name: 'Show task', done: false }, 
-    { id: genIdTask(), name: 'Show server', done: false }, 
-    { id: genIdTask(), name: 'Show game', done: false }
-]
+const incList = (init = 0) => () => ++init
 
-const getAllTasks = () => {
-    return tasks
-}
+const genIdList = incList()
 
+const incTask = (init = 0) => () => ++init
 
-const createTask = data => {
-    return {
-        id: genIdTask(),
-        name: data.name,
-        done: false
+const genIdTask = incTask()
+
+class TaskModel {
+    lists;
+    constructor() {
+        this.lists = {
+            1:
+                [
+                    {id: 1, name: 'New task', done: false},
+                    {id: 2, name: 'Create server', done: false},
+                    {id: 3, name: 'Create game', done: false}
+                ],
+            2:
+                [
+                    {id: 1, name: 'New task', done: false},
+                    {id: 2, name: 'Create server', done: false},
+                ],
+            3:
+                [
+                    {id: 1, name: 'New task', done: false},
+                ]
+        }
+    }
+    getAll(listId) {
+        return this.lists[listId]
+    }
+
+    getOne(listId, taskId) {
+        return this.lists[listId][taskId - 1]
+    }
+
+    addTask(listId, data) {
+        const task = {
+            id: genIdTask(),
+            name: data.name,
+            done: false
+        }
+        this.list[listId].push(task)
+        return this.lists[listId]
+    }
+
+    deleteTask(listId, taskId) {
+        this.lists[listId].splice(taskId - 1, 1);
+        return this.lists[listId];
+    }
+
+    editTask(listId, taskId, data) { // patch
+        let task = this.lists[listId].find(task => task.id === taskId);
+        if (task !== undefined) {
+            Object.assign(task, data)
+            return this.lists[listId]
+        }
+        return this.lists[listId]
+    }
+
+    changeTask(listId, taskId, data) {
+        let task = this.lists[listId].find(task => task.id === taskId);
+        if (task !== undefined) {
+            const newTask = {
+                id: genIdTask(),
+                name: data.name,
+                done: false
+            }
+            Object.assign(task, data)
+            return this.lists[listId]
+        }
+        return this.lists[listId]
     }
 }
 
-const getTask = (listid, taskid) => {
-  const list = lists.find((list) => list.id === listid)
-  if (list !== undefined) {
-    const task = list.tasks.find((task) => task.id === taskid)
-    if (task !== undefined) {
-      return task
-    }
-  }
-}
-
-
-const addTask = (id, options) => { 
-    const task = createTask(data);
-    const list = lists.find(list => list.id === id)
-    if (list !== undefined) {
-        list.task.push(task)
-        return list
-    }
-}
-
-const removeTask = id => { 
-    const list = lists.find(list => list.id === id)
-    if (list !== undefined){
-    const deliver = list.tasks.findIndex(name => name.id === id)
-    if (deliver !== -1){ // если элемент удовлетворяет условию проверяющей функции. В противном случае возвращается -1.
-        const deleted = tasks.splice(id - 1, 1) // filter() != id
-        return deleted
-    } 
-  }
-}
-
-const editTask = (listid, taskid, data) => {
-  const list = lists.find((list) => list.id === listid)
-  if (list !== undefined) {
-    const task = list.tasks.find(task => task.id === taskid)
-    if (task !== undefined) {
-      Object.assign(task, options)
-      return task
-    }
-  }
-}
-  const changeTask = (listid, taskid, data) => {
-    const list = lists.find((list) => list.id === taskid)
-    if (list !== undefined) {
-      const newTask = {
-        id: id,
-        name: data.name,
-        done: false
-      }
-      const tasks = list.tasks
-      const index = tasks.findIndex((task) => task.id === taskid)
-      if (index !== -1) {
-        tasks.splice(index, 1, newTask)
-        return newTask
-      }
-    }
-  }
-module.exports = { getAllTasks, createTask, addTask, getTask, editTask, removeTask, changeTask }
-
-
+const Model = new TaskModel();
+export default Model;
 
 
 

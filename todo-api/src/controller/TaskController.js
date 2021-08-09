@@ -1,38 +1,34 @@
-const { taskModel } = require('../models/index.js');
+// const {getAll, addTask, getTask, editTask, removeTask, changeTask} = require('../models/task.js');
+// let  { Model: {addTask, changeTask, deleteTask, editTask, getAll, getOne} }  = require('../models/index');
 
-class taskController {
-  getAllTasks(listId) {
-    return taskModel.getAllTasks(listId)
-  }
-  
-  createTask(req) {
-    const data = req.body
-    return taskModel.addTask(data)
-  }
+import Model  from '../models/task.js'
 
-  getTask(req) {
-    const id = parseInt(req.params.id)
-    return taskModel.getTask(id)
-  }
+class TaskController {
+    getAll(listId) {
+        return Model.getAll(listId)
+    }
 
-  removeTask(req) {
-    const id = parseInt(req.params.id);
-    return taskModel.removeTask(id)
-  }
+    getOne(listId, taskId) {
+        return Model.getOne(listId, taskId)
+    }
 
-  editTask(req) {
-    const id = parseInt(req.params.id)
-    const data = req.body
-    return taskModel.editTask(id, data)  
-  }
+    createTask(listId, data) {
+        return Model.addTask(listId, data)
+    }
 
-  changeTask(req) {
-    const id = parseInt(req.params.id)
-    const data = req.body
-    return taskModel.changeTask(id, data)
-  }
+    editTask(listId, taskId, data) {
+        return Model.editTask(listId, taskId, data)
+    }
+
+    changeTask(listId, taskId, data) {
+        return Model.changeTask(listId, taskId, data)
+    }
+
+    deleteTask(listId, taskId) {
+        return Model.deleteTask(listId, taskId)
+    }
 }
 
+export const controller = new TaskController()
 
 
-module.exports = new taskController();
